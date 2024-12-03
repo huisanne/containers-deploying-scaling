@@ -27,7 +27,7 @@ EXPOSE ${APP_PORT}
 # cmd to run the application
 ENTRYPOINT ./run.sh ${APP_PORT}
 
-# how to build docker, need to use docker desktop
+# how to build docker
 # docker build -t <imagename>:v1.0
-# how to run docker container, need to use docker desktop
+# how to run docker container
 # docker run -d -p 8080:3000 --name container-name <imagename>:v1.0
