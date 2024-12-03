@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bggapp-deploy
+  namespace: bggns
+  labels:
+    app: bgg-app
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      app: bgg-app
+  template:
+    metadata:
+      name: bggapp-pod
+      namespace: bggns
+      labels:
+        app: bgg-app
+    spec:
+      containers:
+      - name: bggapp-container
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          periodSeconds: 60
+          successThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          periodSeconds: 60
+          successThreshold: 1
+        image: stackupiss/bgg-backend:v1
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: bgg-cm
+        - secretRef:
+            name: bgg-secret
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bggapp-svc
+  namespace: bggns
+  labels:
+    app: bgg-app
+spec:
+  type: ClusterIP
+  selector:
+    app: bgg-app
+  ports:
+  - name: bgg-web
+    port: 8080
+    targetPort: 3000
