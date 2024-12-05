@@ -78,23 +78,23 @@ spec:
         resources:
           # requests the min amt of compute resources
           requests:
-            memory: 250M
+            memory: 400M
             cpu: 200m
           limits:
-            memory: 512M
+            memory: 800M
             cpu: 200m
-        readinessProbe:
-          httpGet:
-            path: /minio/health/ready
-            port: 9000
-          periodSeconds: 60
-          successThreshold: 1
-        livenessProbe:
-          httpGet:
-            path: /minio/health/live
-            port: 9000
-          periodSeconds: 60
-          successThreshold: 1
+        # readinessProbe:
+        #   httpGet:
+        #     path: /minio/health/ready
+        #     port: 9000
+        #   periodSeconds: 60
+        #   successThreshold: 1
+        # livenessProbe:
+        #   httpGet:
+        #     path: /minio/health/live
+        #     port: 9000
+        #   periodSeconds: 60
+        #   successThreshold: 1
         volumeMounts:
         - name: data-vol
           mountPath: /data
