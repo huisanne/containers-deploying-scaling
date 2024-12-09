@@ -65,3 +65,26 @@ spec:
   - name: bgg-web
     port: 8080
     targetPort: 3000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bggapp-ing 
+  namespace: bggns
+  labels:
+    app: bgg 
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: bgg-146.190.5.30.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend: 
+          service:
+            name: bggapp-svc
+            port:
+              number: 3000
+              
